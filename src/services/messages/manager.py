@@ -1,4 +1,8 @@
+from typing import Optional
+
 from fastapi import WebSocket
+
+from src.celery_tasks.tasks import send_message_notification_task
 
 
 class SingletonMeta(type):
@@ -22,10 +26,18 @@ class ConnectionManager(metaclass=SingletonMeta):
     async def disconnect(self, user_id: int):
         self.active_connections.pop(user_id, None)
 
-    async def send_personal_message(self, message: str, user_id: int):
+    async def send_personal_message(
+        self,
+        message: str,
+        user_id: int,
+        sender_name: str,
+        chat_id: Optional[int] = None
+    ):
         websocket = self.active_connections.get(user_id)
         if websocket:
             await websocket.send_text(message)
+        else:
+            send_message_notification_task.delay(sender_name, chat_id)
 
     async def broadcast(self, message: str):
         for websocket in self.active_connections.values():

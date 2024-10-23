@@ -18,6 +18,7 @@ class User(BaseModel):
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     telegram_id = Column(Integer, nullable=True)
     telegram_link_token = Column(String(length=12), nullable=True)
+    telegram_chat_id = Column(Integer, nullable=True)
 
     sent_messages = relationship('Message', back_populates='sender', foreign_keys='Message.sender_id')
     received_messages = relationship('Message', back_populates='receiver', foreign_keys='Message.receiver_id')

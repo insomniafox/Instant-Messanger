@@ -33,6 +33,7 @@ class TelegramService:
         cls,
         token: str,
         telegram_id: int,
+        chat_id: int,
         db: AsyncSession = Depends(get_sqlalchemy_session)
     ) -> dict:
         user: User = await UserService().get_user(telegram_link_token=token, db=db)
@@ -40,6 +41,7 @@ class TelegramService:
             message = '❗️Вы уже подлючены к системе.'
         else:
             user.telegram_id = telegram_id
+            user.telegram_chat_id = chat_id
             await db.commit()
             await db.refresh(user)
             message = '☑️Вы успешно подключены к системе.'

@@ -15,6 +15,8 @@ class ChatService:
         cls,
         sender_id: int,
         receiver_id: int,
+        sender_name: str,
+        chat_id: int | None,
         websocket: WebSocket,
         manager: ConnectionManager = Depends(get_connection_manager),
         db: AsyncSession = Depends(get_sqlalchemy_session)
@@ -29,8 +31,12 @@ class ChatService:
                     receiver_id=receiver_id,
                     db=db
                 )
-                await manager.send_personal_message(f'User {receiver_id}: {data}', receiver_id)  # Отправка получателю
-                await manager.send_personal_message(f'You {data}', sender_id)  # Отправка отправителю
+                await manager.send_personal_message(  # Отправка получателю
+                    f'User {receiver_id}: {data}',
+                    receiver_id,
+                    sender_name,
+                    chat_id
+                )
         except WebSocketDisconnect:
             await manager.disconnect(user_id=sender_id)
             logger.info('Connection closed.')

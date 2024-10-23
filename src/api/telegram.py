@@ -31,6 +31,7 @@ async def set_telegram_id(
     response = await TelegramService.set_user_telegram_id(
         token=request.token,
         telegram_id=request.telegram_id,
+        chat_id=request.chat_id,
         db=db
     )
     return response

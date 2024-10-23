@@ -17,8 +17,12 @@ class MessangerAPIClient:
     _client = httpx.AsyncClient(verify=False)
 
     @classmethod
-    async def link_telegram_id(cls, token: str, user_id: int) -> dict:
-        data = {"token": token, "telegram_id": user_id}
+    async def link_telegram_id(cls, token: str, user_id: int, chat_id: int) -> dict:
+        data = {
+            "token": token,
+            "telegram_id": user_id,
+            "chat_id": chat_id
+        }
         response = await cls._request(
             method='POST',
             url=cls._build_abosolute_url(cls._SET_TELEGRAM_ID_URL),
