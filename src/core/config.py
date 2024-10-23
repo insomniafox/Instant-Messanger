@@ -23,6 +23,16 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = Field(..., env='POSTGRES_PASSWORD')
     POSTGRES_DB: str = Field(..., env='POSTGRES_DB')
 
+    TELEGRAM_BOT_TOKEN: str = Field(..., env='TELEGRAM_BOT_TOKEN')
+    TELEGRAM_BOT_USERNAME: str = Field(..., env='TELEGRAM_BOT_USERNAME')
+    TELEGRAM_ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(..., env='TELEGRAM_ACCESS_TOKEN_EXPIRE_MINUTES')
+
+    MESSANGER_API_BASE_URL: str = Field(..., env='MESSANGER_API_BASE_URL')
+
+    REDIS_HOST: str = Field(..., env='REDIS_HOST')
+    REDIS_PORT: str = Field(..., env='REDIS_PORT')
+    REDIS_DB: str = Field(..., env='REDIS_DB')
+
     class Config:
         env_file = '.env'
 
