@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main_content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+input {
+    width: 200px;
+    height: 30px;
+    border-radius: 8px;
+    border: 2px solid gray;
+}
+
+button {
+    width: 200px;
+    height: 30px;
+    text-align: center;
+    background-color: black;
+    color: aliceblue;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid black;
+}

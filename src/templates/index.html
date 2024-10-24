@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="auth-section"
+     data-login-url="{{ login_url }}"
+     data-register-url="{{ register_url }}"
+     data-chat-url="{{ chat_url }}"
+     data-users-url="{{ users_url }}"
+     data-receiver-id="{{ receiver_id }}">
+    <!-- Кнопки "Вход" и "Регистрация" -->
+    <button id="login-btn" style="display: none;">Login</button>
+    <button id="register-btn" style="display: none;">Register</button>
+</div>
+
+<div id="chat-section" style="display: none;">
+    <h1>Chat Room</h1>
+    <a href="http://localhost:8009/chat">Вернуться назад</a>
+    <h3 class="nickname"></h3>
+    <div id="chat-log">
+        <!--        <div class="chatLog_userList"></div>-->
+        <div class="messages"></div>
+    </div>
+    <input id="message-input" type="text" autocomplete="off" placeholder="Type your message here..."/>
+    <button id="send-button">Send</button>
+</div>
+<div class="userListSection">
+    <h3>Выберите собеседника</h3>
+    <button class="telegramBtn">Привязать Telegram</button>
+    <div class="userList">
+    </div>
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

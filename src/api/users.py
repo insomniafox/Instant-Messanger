@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends
+from fastapi.requests import Request
+from fastapi.responses import HTMLResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.services.templates.templates import TemplateService
 from src.db.database import get_sqlalchemy_session
 from src.models.users.models import User
 from src.models.messages.models import Message
@@ -64,25 +67,25 @@ async def refresh(
     return response
 
 
-@router.get('/me', tags=['users'], response_model=UserSchema)
+@router.get('/me', response_model=UserSchema)
 async def get_me(current_user: User = Depends(get_current_user)):
     return current_user
 
 
-@router.get('/{user_id}', tags=['users'], response_model=UserSchema)
+@router.get('/{user_id}', response_model=UserSchema)
 async def get_user(
     user_id: int,
     db: AsyncSession = Depends(get_sqlalchemy_session),
     current_user: User = Depends(get_current_user)
 ):
-    user = await UserService().get_user(id=user_id, db=db)
+    user = await UserService.get_user(id=user_id, db=db)
     return user
 
 
-@router.get('', tags=['users'], response_model=list[UserSchema])
+@router.get('', response_model=list[UserSchema])
 async def get_users(
     db: AsyncSession = Depends(get_sqlalchemy_session),
     current_user: User = Depends(get_current_user)
 ):
-    user = await UserService().get_users(db=db)
+    user = await UserService.get_users(exclude_user=current_user, db=db)
     return user

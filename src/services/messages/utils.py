@@ -11,14 +11,14 @@ async def get_ws_current_user(
     websocket: WebSocket,
     db: AsyncSession = Depends(get_sqlalchemy_session)
 ) -> User:
-    token = None
-    headers = websocket.scope.get("headers")
-
-    for header in headers:
-        header_name = header[0].decode("utf-8")
-        header_value = header[1].decode("utf-8")
-        if header_name == "authorization":
-            token = header_value.split(" ")[1]
+    token = websocket.query_params.get('token')
+    # headers = websocket.scope.get("headers")
+    #
+    # for header in headers:
+    #     header_name = header[0].decode("utf-8")
+    #     header_value = header[1].decode("utf-8")
+    #     if header_name == "authorization":
+    #         token = header_value.split(" ")[1]
 
     if not token:
         await websocket.close(code=1008)  # Закрываем WebSocket при отсутствии токена

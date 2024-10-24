@@ -14,10 +14,14 @@ class UserService:
     @classmethod
     async def get_users(
         cls,
+        exclude_user: Optional[User] = None,
         db: AsyncSession = Depends(get_sqlalchemy_session),
         **filters
     ) -> Sequence[User]:
-        result = await db.execute(select(User).filter_by(**filters))
+        query = select(User).filter_by(**filters)
+        if exclude_user:
+            query = query.filter(User.id != exclude_user.id)
+        result = await db.execute(query)
         return result.scalars().all()
 
     @classmethod

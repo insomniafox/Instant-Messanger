@@ -32,10 +32,10 @@ class ChatService:
                     db=db
                 )
                 await manager.send_personal_message(  # Отправка получателю
-                    f'User {receiver_id}: {data}',
-                    receiver_id,
-                    sender_name,
-                    chat_id
+                    message=f'{sender_name}: {data}',
+                    user_id=receiver_id,
+                    sender_name=sender_name,
+                    chat_id=chat_id
                 )
         except WebSocketDisconnect:
             await manager.disconnect(user_id=sender_id)

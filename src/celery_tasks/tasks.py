@@ -11,11 +11,8 @@ logger = structlog.get_logger(__name__)
 @celery_app.task()
 def send_message_notification_task(
     sender_name: str,
-    # chat_id: Optional[int] = None
     chat_id: int | None
 ):
-    logger.info(f'CHAT ID IS {chat_id}')
-    logger.info(f'TYPE IS {type(chat_id)}')
     if not chat_id:
         logger.info('Chat id was not provided.')
         return
