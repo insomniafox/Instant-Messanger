@@ -10,13 +10,16 @@ const messageInput = document.getElementById("message-input");
 
 const usersUrl = authSection.getAttribute("data-users-url");
 const chatUrl = authSection.getAttribute("data-chat-url");
+const messageHistoryUrl = authSection.getAttribute("data-message-history-url");
+const meUrl = authSection.getAttribute('data-me-url')
+const baseUrl = authSection.getAttribute('data-base-url')
 
 let users = []
 
 const accessToken = localStorage.getItem('access_token')
 
 if (accessToken == null) {
-    window.location.assign('http://localhost:8009/sign-up')
+    window.location.assign(`${baseUrl}/sign-up`)
 }
 
 
@@ -30,7 +33,6 @@ async function fetchUsers(accessToken, query = "") {
             }
         });
         users = await response.json();
-        console.log("Полученные пользователи:", users);
         displayUsers(users)
     } catch (error) {
         console.error("Ошибка при получении пользователей:", error);
@@ -53,9 +55,58 @@ function displayUsers(users) {
     }
 }
 
+async function getSenderName(accessToken) {
+    try {
+        const response = await fetch(meUrl, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        const currentUser = await response.json();
+        return currentUser.username; // Возвращаем строку, например, `username`
+    } catch (error) {
+        console.error("Ошибка при получении пользователя:", error);
+    }
+}
+
+async function getMessageHistory(accessToken, receiverId) {
+    try {
+        const response = await fetch(messageHistoryUrl + receiverId, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+                "Content-Type": "application/json"
+            }
+        });
+        messages = await response.json();
+        return messages
+    } catch (error) {
+        console.error("Ошибка при получении истории сообщений:", error);
+    }
+}
+
 function initializeChat(receiverId) {
     userListSection.style.display = "none"; // Скрываем список пользователей
     chatSection.style.display = "block"; // Показываем секцию чата
+
+    let currentUser = ""; // Создаем переменную для хранения имени
+
+    getSenderName(accessToken).then((result) => {
+        currentUser = result;
+    });
+
+    const messages = getMessageHistory(accessToken, receiverId)
+        .then(messages => {
+            messages.map(message => {
+                const elementMessage = document.createElement("div");
+                const content = `${message.created_at} ${message.sender_username}: ${message.text}`;
+                elementMessage.textContent = content;
+                messagesBlock.appendChild(elementMessage);
+            });
+        })
 
     const getUserNickname = users.filter((user) => {
         return user.id === receiverId
@@ -66,16 +117,22 @@ function initializeChat(receiverId) {
     const ws = new WebSocket(`${chatUrl}/${receiverId}?token=${accessToken}`);
 
     // Получение сообщений от сервера
-    ws.onmessage = function(event) {
-        const message = event.data;
+    ws.onmessage = function (event) {
+        const now = new Date();
+        const currentTime = `${now.getUTCFullYear()}.${String(now.getUTCMonth() + 1).padStart(2, '0')}.${String(now.getUTCDate()).padStart(2, '0')} ${String(now.getUTCHours()).padStart(2, '0')}:${String(now.getUTCMinutes()).padStart(2, '0')}`;
+
+        const message = `${currentTime} ${event.data}`
         const messageElement = document.createElement("div");
         messageElement.innerHTML = message;
         messagesBlock.appendChild(messageElement);
     };
 
     // Отправка сообщения при нажатии на кнопку "Send"
-    sendButton.onclick = function() {
-        const message = messageInput.value;
+    sendButton.onclick = function () {
+        const now = new Date();
+        const currentTime = `${now.getUTCFullYear()}.${String(now.getUTCMonth() + 1).padStart(2, '0')}.${String(now.getUTCDate()).padStart(2, '0')} ${String(now.getUTCHours()).padStart(2, '0')}:${String(now.getUTCMinutes()).padStart(2, '0')}`;
+
+        const message = `${currentTime} ${currentUser}: ${messageInput.value}`;
         ws.send(message);
         messageInput.value = "";
         const messageElement = document.createElement("div");
@@ -94,7 +151,7 @@ function initializeChat(receiverId) {
 const telegramBtn = document.querySelector('.telegramBtn')
 
 async function linkTelegram(accessToken) {
-    const linkUrl = 'http://localhost:8009/api/telegram/get_token'
+    const linkUrl = `${baseUrl}/api/telegram/get_token`
     try {
         const response = await fetch(linkUrl, {
             method: "GET",
@@ -118,6 +175,6 @@ async function linkTelegram(accessToken) {
 
 fetchUsers(accessToken)
 
-telegramBtn.addEventListener('click',() => {
+telegramBtn.addEventListener('click', () => {
     linkTelegram(accessToken)
 })

@@ -66,10 +66,16 @@ cd Instant-Messanger
 
 ### 3. Запуск Docker (опционально)
 
+Создайте внутреннюю сеть:
+
+```bash
+docker network create messanger_net
+```
+
 Для запуска через Docker, выполните команду:
 
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 ### 4. Чтобы проверить работоспособность чата, зайдите на следующий URL:

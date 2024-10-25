@@ -33,6 +33,8 @@ class Settings(BaseSettings):
     REDIS_PORT: str = Field(..., env='REDIS_PORT')
     REDIS_DB: str = Field(..., env='REDIS_DB')
 
+    TEMPLATE_BASE_URL: str = Field(..., env='TEMPLATE_BASE_URL')
+
     class Config:
         env_file = '.env'
 

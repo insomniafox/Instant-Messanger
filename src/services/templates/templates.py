@@ -6,12 +6,13 @@ from src.core.templates import templates
 
 
 class TemplateService:
-    # _BASE_URL = settings.MESSANGER_API_BASE_URL
-    _BASE_URL = 'http://localhost:8009'
+    _BASE_URL = settings.TEMPLATE_BASE_URL
     _USERS_URL = '/api/users'
     _LOGIN_URL = f'{_USERS_URL}/login'
     _REGISTER_URL = f'{_USERS_URL}/register'
+    _ME_URL = f'{_USERS_URL}/me'
     _CHAT_URL = '/ws/chat'
+    _MESSAGE_HISTORY = '/api/messages/message_history/'
 
     @classmethod
     async def get_chat_template(
@@ -22,6 +23,9 @@ class TemplateService:
             'index.html',
             {
                 'request': request,
+                'base_url': cls._BASE_URL,
+                'me_url': cls._build_absoulte_url(cls._ME_URL),
+                'message_history_url': cls._build_absoulte_url(cls._MESSAGE_HISTORY),
                 'users_url': cls._build_absoulte_url(cls._USERS_URL),
                 'chat_url': cls._build_absoulte_url(cls._CHAT_URL),
             }
@@ -37,6 +41,7 @@ class TemplateService:
             '/register/register.html',
             {
                 'request': request,
+                'base_url': cls._BASE_URL,
                 'register_url': cls._build_absoulte_url(cls._REGISTER_URL)
             }
         )
@@ -51,6 +56,7 @@ class TemplateService:
             '/register/login.html',
             {
                 'request': request,
+                'base_url': cls._BASE_URL,
                 'login_url': cls._build_absoulte_url(cls._LOGIN_URL)
             }
         )

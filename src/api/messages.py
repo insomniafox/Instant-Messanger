@@ -17,7 +17,7 @@ async def get_chat_history(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_sqlalchemy_session)
 ):
-    response = await MessageService.get_message_history(
+    response = await MessageService.get_message_history_schema_response(
         user_id=current_user.id,
         other_user_id=other_user_id,
         db=db

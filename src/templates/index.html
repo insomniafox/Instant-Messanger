@@ -12,7 +12,11 @@
      data-register-url="{{ register_url }}"
      data-chat-url="{{ chat_url }}"
      data-users-url="{{ users_url }}"
-     data-receiver-id="{{ receiver_id }}">
+     data-receiver-id="{{ receiver_id }}"
+     data-base-url="{{ base_url }}"
+     data-message-history-url="{{ message_history_url }}"
+     data-sender-name="{{ sender_name }}"
+     data-me-url="{{ me_url }}">
     <!-- Кнопки "Вход" и "Регистрация" -->
     <button id="login-btn" style="display: none;">Login</button>
     <button id="register-btn" style="display: none;">Register</button>
@@ -20,7 +24,7 @@
 
 <div id="chat-section" style="display: none;">
     <h1>Chat Room</h1>
-    <a href="http://localhost:8009/chat">Вернуться назад</a>
+    <a href="{{ base_url }}/chat">Вернуться назад</a>
     <h3 class="nickname"></h3>
     <div id="chat-log">
         <!--        <div class="chatLog_userList"></div>-->
