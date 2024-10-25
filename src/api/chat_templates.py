@@ -2,8 +2,6 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.requests import Request
 
-from src.models.users.models import User
-from src.services.users.dependencies import get_current_user
 from src.services.templates.templates import TemplateService
 
 router = APIRouter(prefix='')

@@ -8,12 +8,13 @@
 <body>
   <section class="main">
     <div class="main_content"
-    data-login-url="{{ login_url }}">
+    data-login-url="{{ login_url }}"
+    data-base-url="{{ base_url }}">>
     <h1>Войти</h1>
     <input type="text" placeholder="Имя пользователя" id="username">
     <input type="password" placeholder="Пароль" id="password">
     <button id="auth-btn">Войти</button>
-    <a href="http://localhost:8009/sign-up">Нет аккаунта? Зарегистрироваться</a>
+    <a href="{{ base_url }}/sign-up">Нет аккаунта? Зарегистрироваться</a>
     </div>
   </section>
 <script src="/static/login.js"></script>

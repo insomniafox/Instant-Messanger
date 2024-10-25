@@ -62,9 +62,10 @@ cd Instant-Messanger
  ```env
    SECRET_KEY=YOUR-SECRET-KEY
    TELEGRAM_BOT_TOKEN=YOUR-TOKEN
+   TELEGRAM_BOT_USERNAME=YOUR-BOT-USERNAME
    ```
 
-### 3. Запуск Docker (опционально)
+### 3. Запуск Docker
 
 Создайте внутреннюю сеть:
 

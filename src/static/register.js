@@ -1,12 +1,13 @@
 const main_content = document.querySelector('.main_content');
 const registerUrl = main_content.getAttribute("data-register-url");
+const baseUrl = main_content.getAttribute('data-base-url')
 
 const accessToken = localStorage.getItem('access_token')
 
 const btn = document.getElementById('auth-btn')
 
 if (accessToken != null) {
-    window.location.assign('http://localhost:8009/chat')
+    window.location.assign(`${baseUrl}/chat`)
 }
 
 async function handleRegister(registerUrl) {
@@ -36,7 +37,7 @@ async function handleRegister(registerUrl) {
             localStorage.setItem("refresh_token", data.refresh_token);
 
             // Перезагружаем страницу для обновления интерфейса
-            window.location.assign('http://localhost:8009/chat')
+            window.location.assign(`${baseUrl}/chat`)
         } else {
             alert("Ошибка при регистрации: " + data.detail);
         }

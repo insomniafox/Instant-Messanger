@@ -1,5 +1,6 @@
 const main_content = document.querySelector('.main_content');
 const loginUrl = main_content.getAttribute("data-login-url");
+const baseUrl = main_content.getAttribute('data-base-url')
 
 const accessToken = localStorage.getItem('access_token')
 
@@ -8,7 +9,7 @@ const btn = document.getElementById('auth-btn')
 console.log(accessToken)
 
 if (accessToken != null) {
-    window.location.assign('http://localhost:8009/chat')
+    window.location.assign(`${baseUrl}/chat`)
 }
 
 async function handleLogin(loginUrl) {
@@ -34,7 +35,7 @@ async function handleLogin(loginUrl) {
             localStorage.setItem("refresh_token", data.refresh_token);
 
             // Перезагружаем страницу для обновления интерфейса
-            window.location.assign('http://localhost:8009/chat');
+            window.location.assign(`${baseUrl}/chat`);
         } else {
             alert("Ошибка при входе: " + data.detail);
         }

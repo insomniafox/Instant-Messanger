@@ -8,14 +8,15 @@
 <body>
 <section class="main">
     <div class="main_content"
-         data-register-url="{{ register_url }}">
+         data-register-url="{{ register_url }}"
+         data-base-url="{{ base_url }}">
         <h1>Регистрация</h1>
         <input type="text" placeholder="Имя пользователя" id="username">
         <input type="text" placeholder="Имя" id="firstName">
         <input type="text" placeholder="Фамилия" id="lastName">
         <input type="password" placeholder="Пароль" id="password">
         <button id="auth-btn">Регистрация</button>
-        <a href="http://localhost:8009/sign-in">Уже есть аккаунт? Войдите</a>
+        <a href="{{ base_url }}/sign-in">Уже есть аккаунт? Войдите</a>
     </div>
 </section>
 <script src="/static/register.js"></script>
