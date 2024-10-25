@@ -7,6 +7,7 @@ const authSection = document.getElementById("auth-section");
 const chatSection = document.getElementById("chat-section");
 const sendButton = document.getElementById("send-button");
 const messageInput = document.getElementById("message-input");
+const chatLog = document.getElementById('chat-log')
 
 const usersUrl = authSection.getAttribute("data-users-url");
 const chatUrl = authSection.getAttribute("data-chat-url");
@@ -42,14 +43,12 @@ async function fetchUsers(accessToken, query = "") {
 function displayUsers(users) {
     if (users != null) {
         userList.innerHTML = "";
-        // chatLogUserList.innerHTML = ""; // Очищаем перед добавлением
 
         users.map(user => {
             const li = document.createElement("li");
             li.textContent = user.username;
             const liClone = li.cloneNode(true);
             userList.appendChild(li);
-            // chatLogUserList.appendChild(liClone);
             li.addEventListener("click", () => initializeChat(user.id));
         });
     }
@@ -86,6 +85,10 @@ async function getMessageHistory(accessToken, receiverId) {
     } catch (error) {
         console.error("Ошибка при получении истории сообщений:", error);
     }
+}
+
+function scrollToBottom() {
+    chatLog.scrollTop = chatLog.scrollHeight;
 }
 
 function initializeChat(receiverId) {
@@ -125,6 +128,7 @@ function initializeChat(receiverId) {
         const messageElement = document.createElement("div");
         messageElement.innerHTML = message;
         messagesBlock.appendChild(messageElement);
+        scrollToBottom()
     };
 
     // Отправка сообщения при нажатии на кнопку "Send"
@@ -138,6 +142,7 @@ function initializeChat(receiverId) {
         const messageElement = document.createElement("div");
         messageElement.innerHTML = message;
         messagesBlock.appendChild(messageElement);
+        scrollToBottom()
     };
 
     // Отправка сообщения при нажатии клавиши Enter
