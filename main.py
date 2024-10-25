@@ -1,4 +1,5 @@
 from fastapi import FastAPI, APIRouter
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
@@ -32,6 +33,11 @@ ws_router.include_router(chat_router)
 app.include_router(template_router)  # templates
 app.include_router(api_router)
 app.include_router(ws_router)
+
+
+@app.get("/")
+async def root():
+    return RedirectResponse(url="/chat")
 
 # middleware
 app.add_middleware(
