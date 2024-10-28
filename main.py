@@ -42,8 +42,8 @@ async def root():
 # middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Вы можете указать конкретные домены, например ["http://localhost:3000"]
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Разрешаем все методы (GET, POST, и т.д.)
-    allow_headers=["*"],  # Разрешаем все заголовки
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
