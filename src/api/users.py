@@ -1,12 +1,8 @@
 from fastapi import APIRouter, Depends
-from fastapi.requests import Request
-from fastapi.responses import HTMLResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.services.templates.templates import TemplateService
 from src.db.database import get_sqlalchemy_session
 from src.models.users.models import User
-from src.models.messages.models import Message
 from src.schemas.users import (
     UserSchema,
     UserRegisterSchema,
